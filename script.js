@@ -14,13 +14,13 @@ const questions = [
         question: "Qual é o maior planeta do Sistema Solar?",
         options: ["Marte", "Júpiter", "Vênus", "Urano"],
         correctAnswer: 1,
-        imagePath: "url_da_imagem_2.jpg"
+        imagePath: "sistema.jpeg"
     },
     {
         question: "Qual é o processo pelo qual as plantas convertem luz solar em energia?",
         options: ["Fotossíntese", "Respiração celular", "Osmose", "Mitose"],
         correctAnswer: 0,
-        imagePath: "url_da_imagem_3.jpg"
+        imagePath: "planta.jpg"
     },
     {
         question: "Qual é a maior lua de Júpiter?",
@@ -30,17 +30,15 @@ const questions = [
     // Adicione mais questões aqui
 ];
 
-const correctSound = new Audio("correct-sound.mp3");
-const incorrectSound = new Audio("incorrect-sound.mp3");
-const backgroundMusic = new Audio("background-music.mp3");
+const correctSound = document.getElementById('correctSound');
+const incorrectSound = document.getElementById('incorrectSound');
+const backgroundMusic = document.getElementById('backgroundMusic');
 backgroundMusic.loop = true;
 
 const questionContainer = document.querySelector('.question');
-const optionsContainer = document.querySelector('.options');
+const optionsContainer = document.querySelector('.options-container');
 const scoreDisplay = document.getElementById('score');
 const chancesDisplay = document.getElementById('chances');
-const timerDisplay = document.getElementById('timer');
-const timeLeftDisplay = document.getElementById('time-left');
 const timerCircle = document.querySelector('.timer-circle');
 const resultDisplay = document.getElementById('result');
 
@@ -48,31 +46,24 @@ let currentQuestionIndex = 0;
 let score = 0;
 let chances = 2;
 let timeLeft = 60;
-let timer; // Referência ao temporizador
+let timer;
 
 function displayQuestion() {
-    questionContainer.textContent = questions[currentQuestionIndex].question;
+    const currentQuestion = questions[currentQuestionIndex];
+    questionContainer.textContent = currentQuestion.question;
     optionsContainer.innerHTML = '';
 
-    const optionContainer = document.createElement('div');
-    optionContainer.classList.add('option-container');
-
-    questions[currentQuestionIndex].options.forEach((option, index) => {
+    currentQuestion.options.forEach((option, index) => {
         const optionElement = document.createElement('div');
         optionElement.classList.add('option');
-
-        const colors = ['red', 'yellow', 'green', 'blue'];
-        optionElement.style.backgroundColor = colors[index];
-
-        const optionText = document.createElement('span');
-        optionText.textContent = option;
-        optionElement.appendChild(optionText);
+        optionElement.textContent = option;
 
         optionElement.addEventListener('click', () => checkAnswer(index));
-        optionContainer.appendChild(optionElement);
+        optionsContainer.appendChild(optionElement);
     });
 
-    optionsContainer.appendChild(optionContainer);
+    const imagePath = currentQuestion.imagePath;
+    document.body.style.backgroundImage = `url('${imagePath}')`;
 
     startTimer();
 }
@@ -85,13 +76,12 @@ function startTimer() {
 
         if (timeLeft <= 0) {
             clearInterval(timer);
-            checkAnswer(-1); // Tempo esgotado
+            checkAnswer(-1);
         }
     }, 1000);
 }
 
 function updateTimerDisplay() {
-    timeLeftDisplay.textContent = timeLeft < 10 ? `0${timeLeft}` : timeLeft;
     const timePercent = (timeLeft / 60) * 100;
     timerCircle.style.background = `conic-gradient(transparent ${360 - timePercent * 3.6}deg, #fff ${360 - timePercent * 3.6}deg)`;
 }
@@ -99,37 +89,43 @@ function updateTimerDisplay() {
 function checkAnswer(selectedIndex) {
     clearInterval(timer);
 
-    const correctAnswerIndex = questions[currentQuestionIndex].correctAnswer;
-    const selectedOption = optionsContainer.querySelectorAll('.option')[selectedIndex];
+    const currentQuestion = questions[currentQuestionIndex];
+    const correctIndex = currentQuestion.correctAnswer;
 
-    if (selectedIndex === correctAnswerIndex) {
+    if (selectedIndex === correctIndex) {
         score += 10;
-        scoreDisplay.textContent = `Pontuação: ${score}`;
-        selectedOption.classList.add('clicked', 'correct');
-        correctSound.play();
-    } else {
-        selectedOption.classList.add('clicked', 'incorrect');
-        chances--;
-        chancesDisplay.textContent = `Chances: ${chances}`;
-        incorrectSound.play();
-    }
-
-    setTimeout(() => {
-        selectedOption.classList.remove('clicked', 'correct', 'incorrect');
+        scoreDisplay.textContent = score;
         currentQuestionIndex++;
 
         if (currentQuestionIndex < questions.length) {
             timeLeft = 60;
             displayQuestion();
         } else {
-            backgroundMusic.pause();
             questionContainer.textContent = "Quiz completado!";
             optionsContainer.innerHTML = '';
-            timerDisplay.textContent = '';
-            resultDisplay.textContent = `Sua pontuação final: ${score}`;
+            resultDisplay.textContent = '';
+            timerCircle.style.display = 'none';
+            backgroundMusic.pause();
         }
-    }, 1000);
+    } else {
+        chances--;
+        chancesDisplay.textContent = chances;
+
+        if (chances === 0) {
+            currentQuestionIndex = 0;
+            score = 0;
+            chances = 2;
+            timeLeft = 60;
+            displayQuestion();
+        } else {
+            resultDisplay.textContent = "Resposta incorreta. Tente novamente!";
+            timeLeft = 60;
+            displayQuestion();
+        }
+        incorrectSound.play();
+    }
 }
 
-playBackgroundMusic();
+// Início do Quiz
 displayQuestion();
+backgroundMusic.play();

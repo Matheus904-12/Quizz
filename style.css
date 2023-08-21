@@ -1,0 +1,104 @@
+/* Defina uma fonte amigável e divertida */
+body {
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  /* Estilize o contêiner das perguntas */
+  .question {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilize o contêiner das alternativas */
+  .options {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .option-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  /* Estilize as opções/alternativas */
+  .option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+    font-size: 18px;
+    color: #fff;
+    width: calc(50% - 10px);
+  }
+  
+  /* Adicione cores de fundo diferentes para cada alternativa */
+  .option:nth-child(1) { background-color: #FF5555; }
+  .option:nth-child(2) { background-color: #FFD700; }
+  .option:nth-child(3) { background-color: #4CAF50; }
+  .option:nth-child(4) { background-color: #3498DB; }
+  
+  /* Estilize a barra de progresso */
+  #timer {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    position: relative;
+    width: 100%;
+    height: 30px;
+    background-color: #EFEFEF;
+    border-radius: 15px;
+    overflow: hidden;
+  }
+  
+  .timer-circle {
+    width: 30px;
+    height: 30px;
+    background: conic-gradient(transparent 0deg, #fff 0deg);
+    border-radius: 50%;
+    position: absolute;
+    left: 0;
+    transform-origin: center;
+  }
+  
+  /* Estilize o temporizador e o placar */
+  #time-left, #score {
+    font-size: 24px;
+    margin-right: 20px;
+    font-weight: bold;
+  }
+  
+  /* Estilize o temporizador quando estiver acabando */
+  #time-left {
+    color: #FF5555;
+  }
+  
+  /* Estilize o placar de chances */
+  #chances {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+  /* Adicione cores de fundo e estilos para os botões quando selecionados */
+  .option.clicked.correct {
+    background-color: #00C853;
+  }
+  
+  .option.clicked.incorrect {
+    background-color: #FF5252;
+  }
+  
+  /* Adicione animação suave quando uma alternativa for clicada */
+  .option {
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .option:hover {
+    transform: scale(1.05);
+  }
+  

@@ -1,38 +1,66 @@
 const questions = [
     {
         question: "Qual é a capital da França?",
-        options: ["Paris", "Madri", "Roma", "Berlim"],
+        options: [
+            '<i class="fas fa-flag"></i> Paris',
+            '<i class="fas fa-flag"></i> Madri',
+            '<i class="fas fa-flag"></i> Roma',
+            '<i class="fas fa-flag"></i> Berlim'
+        ],
         correctAnswer: 0,
+        imagePath: "frança2.jpg"
     },
     {
         question: "Qual é a capital do Brasil?",
-        options: ["Brasília", "Rio de Janeiro", "São Paulo", "Belo Horizonte"],
+        options: [
+            '<i class="fas fa-flag"></i> Brasília',
+            '<i class="fas fa-flag"></i> Rio de Janeiro',
+            '<i class="fas fa-flag"></i> São Paulo',
+            '<i class="fas fa-flag"></i> Belo Horizonte'
+        ],
         correctAnswer: 0,
         imagePath: "brasil20.jpeg"
     },
     {
         question: "Qual é o maior planeta do Sistema Solar?",
-        options: ["Marte", "Júpiter", "Vênus", "Urano"],
+        options: [
+            '<i class="fas fa-globe"></i> Marte',
+            '<i class="fas fa-globe"></i> Júpiter',
+            '<i class="fas fa-globe"></i> Vênus',
+            '<i class="fas fa-globe"></i> Urano'
+        ],
         correctAnswer: 1,
         imagePath: "sistema.jpeg"
     },
     {
         question: "Qual é o processo pelo qual as plantas convertem luz solar em energia?",
-        options: ["Fotossíntese", "Respiração celular", "Osmose", "Mitose"],
+        options: [
+            '<i class="fas fa-leaf"></i> Fotossíntese',
+            '<i class="fas fa-leaf"></i> Respiração celular',
+            '<i class="fas fa-leaf"></i> Osmose',
+            '<i class="fas fa-leaf"></i> Mitose'
+        ],
         correctAnswer: 0,
         imagePath: "planta.jpg"
     },
     {
         question: "Qual é a maior lua de Júpiter?",
-        options: ["Europa", "Ganimedes", "Calisto", "Io"],
+        options: [
+            '<i class="fas fa-moon"></i> Europa',
+            '<i class="fas fa-moon"></i> Ganimedes',
+            '<i class="fas fa-moon"></i> Calisto',
+            '<i class="fas fa-moon"></i> Io'
+        ],
         correctAnswer: 0,
+        imagePath: "jupiter.jpg"
     }
-    // Adicione mais questões aqui
 ];
 
-const correctSound = document.getElementById('correctSound');
-const incorrectSound = document.getElementById('incorrectSound');
-const backgroundMusic = document.getElementById('backgroundMusic');
+const colors = ["#FF5555", "#FFD700", "#4CAF50", "#3498DB"]; // Cores para as alternativas
+
+const correctSound = new Audio('depositphotos_426537900-track-correct-guess-bing.mp3');
+const incorrectSound = new Audio('som_de_resposta_errada_efeito_sonoro_toquesengracadosmp3.com');
+const backgroundMusic = new Audio('LAKEY INSPIRED - Me 2 (Feat. Julian Avila).mp3');
 backgroundMusic.loop = true;
 
 const questionContainer = document.querySelector('.question');
@@ -48,16 +76,21 @@ let chances = 2;
 let timeLeft = 60;
 let timer;
 
+// Event listener para iniciar o áudio
+document.addEventListener("DOMContentLoaded", function() {
+    backgroundMusic.play();
+});
+
 function displayQuestion() {
     const currentQuestion = questions[currentQuestionIndex];
-    questionContainer.textContent = currentQuestion.question;
+    questionContainer.innerHTML = currentQuestion.question;
     optionsContainer.innerHTML = '';
 
     currentQuestion.options.forEach((option, index) => {
-        const optionElement = document.createElement('div');
+        const optionElement = document.createElement('button');
         optionElement.classList.add('option');
-        optionElement.textContent = option;
-
+        optionElement.innerHTML = option;
+        optionElement.style.backgroundColor = colors[index]; // Definir cor de fundo
         optionElement.addEventListener('click', () => checkAnswer(index));
         optionsContainer.appendChild(optionElement);
     });
@@ -84,6 +117,7 @@ function startTimer() {
 function updateTimerDisplay() {
     const timePercent = (timeLeft / 60) * 100;
     timerCircle.style.background = `conic-gradient(transparent ${360 - timePercent * 3.6}deg, #fff ${360 - timePercent * 3.6}deg)`;
+    document.getElementById('time-left').textContent = timeLeft;
 }
 
 function checkAnswer(selectedIndex) {

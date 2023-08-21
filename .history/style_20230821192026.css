@@ -1,0 +1,88 @@
+/* Estilos para o Quiz */
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.5s ease-in-out;
+}
+
+.quiz-container {
+    max-width: 600px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.question {
+    font-size: 24px;
+    margin-bottom: 20px;
+    padding: 10px; /* Tamanho uniforme para caixas de pergunta */
+    border-radius: 8px;
+    background-color: #3498DB; /* Cor de fundo para caixas de pergunta */
+    color: #fff; /* Cor do texto para caixas de pergunta */
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 80px;
+    margin: 10px 0;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.2s;
+    font-size: 18px;
+    color: #fff;
+    border: none;
+}
+
+/* Estilize a barra de progresso e o relógio */
+.timer-circle {
+    width: 30px;
+    height: 30px;
+    background: conic-gradient(transparent 0deg, #3498DB 0deg);
+    border-radius: 50%;
+    position: relative;
+    left: 10px; /* Posição ajustada para o relógio ao lado da bolinha */
+    transform-origin: center;
+    transition: background-color 0.3s; /* Transição de cor para o relógio */
+}
+
+/* Estilos para pontuação e chances */
+.score {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+/* Estilos para o resultado */
+#result {
+    font-size: 18px;
+    margin-top: 20px;
+    color: #FF5555;
+}
+
+/* Estilos para o temporizador */
+.timer {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    position: relative;
+    font-size: 24px;
+    font-weight: bold;
+    color: #3498DB; /* Cor do texto para o relógio */
+}
